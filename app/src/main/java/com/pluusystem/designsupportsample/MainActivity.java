@@ -17,18 +17,18 @@ import com.pluusystem.designsupportsample.fragment.FloatingLabelFragment;
 import com.pluusystem.designsupportsample.fragment.MainFragment;
 import com.pluusystem.designsupportsample.fragment.TabsFragment;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity
+public final class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-  @InjectView(R.id.main_tool_bar)
-  Toolbar toolBar;
-  @InjectView(R.id.main_drawer_view)
-  NavigationView navigationView;
-  @InjectView(R.id.drawer_layout)
-  DrawerLayout drawerLayout;
+  @Bind(R.id.main_tool_bar)
+  protected Toolbar mToolBar;
+  @Bind(R.id.main_drawer_view)
+  protected NavigationView mNavigationView;
+  @Bind(R.id.drawer_layout)
+  protected DrawerLayout mDrawerLayout;
 
   private ActionBarDrawerToggle mDrawerToggle;
 
@@ -36,19 +36,20 @@ public class MainActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.inject(this);
+    //FindViewById.
+    ButterKnife.bind(this);
+    //ActionBar Setting.
+    setSupportActionBar(mToolBar);
 
-    setSupportActionBar(toolBar);
-
-    mDrawerToggle = new ActionBarDrawerToggle(this,
-                                              drawerLayout,
-                                              toolBar,
-                                              R.string.app_name,
-                                              R.string.app_name);
+    //Left Navigation Menu Initialize.
+    mDrawerToggle = new ActionBarDrawerToggle(this, //Attach Activity.
+                                              mDrawerLayout,//Attach Layout.
+                                              mToolBar,//Optional Toolbar.
+                                              R.string.app_name,//Opened Description.
+                                              R.string.app_name);//Closed Description.
     mDrawerToggle.setDrawerIndicatorEnabled(true);
-    drawerLayout.setDrawerListener(mDrawerToggle);
-
-    navigationView.setNavigationItemSelectedListener(this);
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+    mNavigationView.setNavigationItemSelectedListener(this);
   }
 
   @Override
@@ -91,10 +92,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     if (fragment != null) {
+      //Change Attached Fragment.
       FragmentManager manager = getSupportFragmentManager();
       manager.beginTransaction().replace(R.id.main_frame, fragment).commit();
 
-      drawerLayout.closeDrawers();
+      mDrawerLayout.closeDrawers();
       menuItem.setChecked(true);
     }
     return true;

@@ -16,16 +16,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public class AppBarActivity extends AppCompatActivity {
+public final class AppBarActivity extends AppCompatActivity {
 
-  @InjectView(R.id.recyclerView)
+  @Bind(R.id.recyclerView)
   protected RecyclerView mRecyclerView;
-  @InjectView(R.id.toolbar)
+  @Bind(R.id.toolbar)
   protected Toolbar mToolBar;
-  @InjectView(R.id.collapsingToolbarLayout)
+  @Bind(R.id.collapsingToolbarLayout)
   protected CollapsingToolbarLayout mCollapsingToolbarLayout;
 
   @Override
@@ -33,7 +33,7 @@ public class AppBarActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_app_bar);
     //FindViewById.
-    ButterKnife.inject(this);
+    ButterKnife.bind(this);
     //ActionBar Setting.
     setSupportActionBar(mToolBar);
     ActionBar ab = getSupportActionBar();
@@ -67,7 +67,7 @@ public class AppBarActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  private static class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
+  private final static class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     private final List<String> mItemList;
 
@@ -98,7 +98,7 @@ public class AppBarActivity extends AppCompatActivity {
     }
   }
 
-  private static class ItemViewHolder extends RecyclerView.ViewHolder {
+  private final static class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public TextView mTitle;
 

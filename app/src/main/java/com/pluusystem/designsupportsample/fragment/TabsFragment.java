@@ -13,19 +13,19 @@ import android.widget.TextView;
 
 import com.pluusystem.designsupportsample.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class TabsFragment extends Fragment {
+public final class TabsFragment extends Fragment {
 
-  @InjectView(R.id.tabLayout)
-  TabLayout tabLayout;
-  @InjectView(R.id.viewPager)
-  ViewPager viewPager;
+  @Bind(R.id.tabLayout)
+  protected TabLayout mTabLayout;
+  @Bind(R.id.viewPager)
+  protected ViewPager mViewPager;
 
   private static final int TAB_COUNT = 10;
 
@@ -43,27 +43,22 @@ public class TabsFragment extends Fragment {
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
-    ButterKnife.inject(this, view);
+    ButterKnife.bind(this, view);
   }
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
-    //for (int i = 0; i < TAB_COUNT; i++) {
-    //tabLayout.addTab(tabLayout.newTab().setText("TAB " + i));
-    //}
-
     TabPagerAdapter adapter = new TabPagerAdapter(getFragmentManager());
-    viewPager.setAdapter(adapter);
-    tabLayout.setupWithViewPager(viewPager);
-    tabLayout.setTabsFromPagerAdapter(adapter);
+    mViewPager.setAdapter(adapter);
+    mTabLayout.setupWithViewPager(mViewPager);
+    mTabLayout.setTabsFromPagerAdapter(adapter);
   }
 
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    ButterKnife.reset(this);
+    ButterKnife.unbind(this);
   }
 
   private class TabPagerAdapter extends FragmentPagerAdapter {
@@ -88,10 +83,10 @@ public class TabsFragment extends Fragment {
     }
   }
 
-  public static class CurrentFragment extends Fragment {
+  public static final class CurrentFragment extends Fragment {
 
-    @InjectView(R.id.textView)
-    TextView textView;
+    @Bind(R.id.textView)
+    TextView mTextView;
 
     private static final String ARGS_KEY = "idx";
 
@@ -103,9 +98,6 @@ public class TabsFragment extends Fragment {
       return fragment;
     }
 
-    public CurrentFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
       return i.inflate(R.layout.fragment_tab_fragment, c, false);
@@ -113,20 +105,20 @@ public class TabsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-      ButterKnife.inject(this, view);
+      ButterKnife.bind(this, view);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
       super.onActivityCreated(savedInstanceState);
       int idx = getArguments().getInt(ARGS_KEY, -1);
-      textView.setText("Page Position=" + idx);
+      mTextView.setText("Page Position=" + idx);
     }
 
     @Override
     public void onDestroyView() {
       super.onDestroyView();
-      ButterKnife.reset(this);
+      ButterKnife.unbind(this);
     }
   }
 }

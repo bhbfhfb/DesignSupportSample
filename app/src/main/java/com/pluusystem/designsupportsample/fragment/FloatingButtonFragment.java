@@ -11,18 +11,18 @@ import android.widget.Toast;
 
 import com.pluusystem.designsupportsample.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class FloatingButtonFragment extends Fragment implements View.OnClickListener {
+public final class FloatingButtonFragment extends Fragment implements View.OnClickListener {
 
-  @InjectView(R.id.coordinatorLayout)
-  CoordinatorLayout coordinatorLayout;
+  @Bind(R.id.coordinatorLayout)
+  protected CoordinatorLayout mCoordinatorLayout;
 
   /**
    * Create New Fragment.
@@ -40,21 +40,23 @@ public class FloatingButtonFragment extends Fragment implements View.OnClickList
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
-    ButterKnife.inject(this, view);
+    ButterKnife.bind(this, view);
   }
 
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    ButterKnife.reset(this);
+    ButterKnife.unbind(this);
   }
 
   @OnClick(R.id.actionButton)
-  public void viwSnackBar() {
-    Snackbar.make(coordinatorLayout, R.string.snackbar_text, Snackbar.LENGTH_LONG)
-        .setAction(R.string.snackbar_action, this)
-        .setActionTextColor(getResources().getColor(R.color.color_snackbar_action))
-        .show();
+  public void viewSnackBar() {
+    //SnackBar Configuration.
+    //Attach Layout, Title, Duration.
+    Snackbar.make(mCoordinatorLayout, R.string.snackbar_text, Snackbar.LENGTH_LONG)
+        .setAction(R.string.snackbar_action, this)//Button Text, Callback.
+        .setActionTextColor(getResources().getColor(R.color.color_snackbar_action))//Button Color
+        .show();//Show.
   }
 
   @Override

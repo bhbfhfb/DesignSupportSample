@@ -12,7 +12,7 @@ import com.pluusystem.designsupportsample.R;
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class MainFragment extends Fragment {
+public final class MainFragment extends Fragment {
 
   public static MainFragment newInstance() {
     return new MainFragment();

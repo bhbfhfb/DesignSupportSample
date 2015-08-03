@@ -12,7 +12,7 @@ import com.pluusystem.designsupportsample.R;
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class FloatingLabelFragment extends Fragment {
+public final class FloatingLabelFragment extends Fragment {
 
   public static FloatingLabelFragment newInstance() {
     return new FloatingLabelFragment();
