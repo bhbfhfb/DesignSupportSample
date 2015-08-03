@@ -7,51 +7,58 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.pluusystem.designsupportsample.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import com.pluusystem.designsupportsample.R;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
-public class FloatingButtonFragment extends Fragment
-	implements View.OnClickListener {
+@SuppressWarnings("DefaultFileTemplate")
+public class FloatingButtonFragment extends Fragment implements View.OnClickListener {
 
-	@InjectView(R.id.coordinatorLayout)
-	CoordinatorLayout coordinatorLayout;
+  @InjectView(R.id.coordinatorLayout)
+  CoordinatorLayout coordinatorLayout;
 
-	public static FloatingButtonFragment newInstance() {
-		FloatingButtonFragment fragment = new FloatingButtonFragment();
-		return fragment;
-	}
+  /**
+   * Create New Fragment.
+   *
+   * @return Fragment.
+   */
+  public static FloatingButtonFragment newInstance() {
+    return new FloatingButtonFragment();
+  }
 
-	public FloatingButtonFragment() { }
+  @Override
+  public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
+    return i.inflate(R.layout.fragment_floating_button, c, false);
+  }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_floating_button, container, false);
-		ButterKnife.inject(this, rootView);
-		return rootView;
-	}
+  @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    ButterKnife.inject(this, view);
+  }
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.reset(this);
+  }
 
-	@OnClick(R.id.actionButton)
-	public void viwSnackBar() {
-		Snackbar
-			.make(coordinatorLayout, R.string.snackbar_text, Snackbar.LENGTH_LONG)
-			.setAction(R.string.snackbar_action, this)
-			.setActionTextColor(getResources().getColor(R.color.color_snackbar_action))
-			.show();
-	}
+  @OnClick(R.id.actionButton)
+  public void viwSnackBar() {
+    Snackbar.make(coordinatorLayout, R.string.snackbar_text, Snackbar.LENGTH_LONG)
+        .setAction(R.string.snackbar_action, this)
+        .setActionTextColor(getResources().getColor(R.color.color_snackbar_action))
+        .show();
+  }
 
-	@Override
-	public void onClick(View v) { }
+  @Override
+  public void onClick(View v) {
+    Toast.makeText(getActivity(), "UNDO", Toast.LENGTH_SHORT).show();
+  }
 }

@@ -11,115 +11,122 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pluusystem.designsupportsample.R;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.pluusystem.designsupportsample.R;
 
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class TabsFragment extends Fragment {
-	@InjectView(R.id.tabLayout)
-	TabLayout tabLayout;
-	@InjectView(R.id.viewPager)
-	ViewPager viewPager;
 
-	private final int TAB_COUNT = 10;
+  @InjectView(R.id.tabLayout)
+  TabLayout tabLayout;
+  @InjectView(R.id.viewPager)
+  ViewPager viewPager;
 
-	public static TabsFragment newInstance() {
-		TabsFragment fragment = new TabsFragment();
-		return fragment;
-	}
+  private static final int TAB_COUNT = 10;
 
-	public TabsFragment() {
-	}
+  public static TabsFragment newInstance() {
+    return new TabsFragment();
+  }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_tabs, container, false);
-		ButterKnife.inject(this, rootView);
-		return rootView;
-	}
+  public TabsFragment() {
+  }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+  @Override
+  public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
+    return i.inflate(R.layout.fragment_tabs, c, false);
+  }
 
-//		for (int i = 0; i < TAB_COUNT; i++) {
-//			tabLayout.addTab(tabLayout.newTab().setText("TAB " + i));
-//		}
+  @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    ButterKnife.inject(this, view);
+  }
 
-		TabPagerAdapter adapter = new TabPagerAdapter(getFragmentManager());
-		viewPager.setAdapter(adapter);
-		tabLayout.setupWithViewPager(viewPager);
-		tabLayout.setTabsFromPagerAdapter(adapter);
-	}
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.reset(this);
-	}
+    //for (int i = 0; i < TAB_COUNT; i++) {
+    //tabLayout.addTab(tabLayout.newTab().setText("TAB " + i));
+    //}
 
-	private class TabPagerAdapter extends FragmentPagerAdapter {
+    TabPagerAdapter adapter = new TabPagerAdapter(getFragmentManager());
+    viewPager.setAdapter(adapter);
+    tabLayout.setupWithViewPager(viewPager);
+    tabLayout.setTabsFromPagerAdapter(adapter);
+  }
 
-		public TabPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.reset(this);
+  }
 
-		@Override
-		public Fragment getItem(int position) {
-			return CurrentFragment.CurrentFragment(position);
-		}
+  private class TabPagerAdapter extends FragmentPagerAdapter {
 
-		@Override
-		public int getCount() {
-			return TAB_COUNT;
-		}
+    public TabPagerAdapter(FragmentManager fm) {
+      super(fm);
+    }
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return "TAB " + position;
-		}
-	}
+    @Override
+    public Fragment getItem(int position) {
+      return CurrentFragment.newInstance(position);
+    }
 
-	public static class CurrentFragment extends Fragment {
-		@InjectView(R.id.textView)
-		TextView textView;
+    @Override
+    public int getCount() {
+      return TAB_COUNT;
+    }
 
-		private static final String ARGS_KEY = "idx";
+    @Override
+    public CharSequence getPageTitle(int position) {
+      return "TAB " + position;
+    }
+  }
 
-		public static CurrentFragment CurrentFragment(int position) {
-			CurrentFragment fragment = new CurrentFragment();
-			Bundle bundle = new Bundle();
-			bundle.putInt(ARGS_KEY, position);
-			fragment.setArguments(bundle);
-			return fragment;
-		}
+  public static class CurrentFragment extends Fragment {
 
-		public CurrentFragment() {
-		}
+    @InjectView(R.id.textView)
+    TextView textView;
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-								 Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_tab_fragment, container, false);
-			ButterKnife.inject(this, rootView);
-			return rootView;
-		}
+    private static final String ARGS_KEY = "idx";
 
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
-			int idx = getArguments().getInt(ARGS_KEY, -1);
-			textView.setText("Page Position=" + idx);
-		}
+    public static CurrentFragment newInstance(int position) {
+      CurrentFragment fragment = new CurrentFragment();
+      Bundle bundle = new Bundle();
+      bundle.putInt(ARGS_KEY, position);
+      fragment.setArguments(bundle);
+      return fragment;
+    }
 
-		@Override
-		public void onDestroyView() {
-			super.onDestroyView();
-			ButterKnife.reset(this);
-		}
-	}
+    public CurrentFragment() {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
+      return i.inflate(R.layout.fragment_tab_fragment, c, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+      ButterKnife.inject(this, view);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+      super.onActivityCreated(savedInstanceState);
+      int idx = getArguments().getInt(ARGS_KEY, -1);
+      textView.setText("Page Position=" + idx);
+    }
+
+    @Override
+    public void onDestroyView() {
+      super.onDestroyView();
+      ButterKnife.reset(this);
+    }
+  }
 }

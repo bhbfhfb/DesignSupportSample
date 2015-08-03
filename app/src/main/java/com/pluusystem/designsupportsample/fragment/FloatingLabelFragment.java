@@ -11,19 +11,18 @@ import com.pluusystem.designsupportsample.R;
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class FloatingLabelFragment extends Fragment {
-	public static FloatingLabelFragment newInstance() {
-		FloatingLabelFragment fragment = new FloatingLabelFragment();
-		return fragment;
-	}
 
-	public FloatingLabelFragment() {
-	}
+  public static FloatingLabelFragment newInstance() {
+    return new FloatingLabelFragment();
+  }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_floating_label, container, false);
-		return rootView;
-	}
+  public FloatingLabelFragment() {
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
+    return i.inflate(R.layout.fragment_floating_label, c, false);
+  }
 }

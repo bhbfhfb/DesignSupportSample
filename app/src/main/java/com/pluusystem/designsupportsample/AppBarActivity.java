@@ -2,6 +2,7 @@ package com.pluusystem.designsupportsample;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,83 +21,94 @@ import butterknife.InjectView;
 
 public class AppBarActivity extends AppCompatActivity {
 
-	@InjectView(R.id.recyclerView)
-	RecyclerView recyclerView;
-	@InjectView(R.id.toolbar)
-	Toolbar toolBar;
-	@InjectView(R.id.collapsingToolbarLayout)
-	CollapsingToolbarLayout collapsingToolbarLayout;
+  @InjectView(R.id.recyclerView)
+  protected RecyclerView mRecyclerView;
+  @InjectView(R.id.toolbar)
+  protected Toolbar mToolBar;
+  @InjectView(R.id.collapsingToolbarLayout)
+  protected CollapsingToolbarLayout mCollapsingToolbarLayout;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_app_bar);
-		ButterKnife.inject(this);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_app_bar);
+    //FindViewById.
+    ButterKnife.inject(this);
+    //ActionBar Setting.
+    setSupportActionBar(mToolBar);
+    ActionBar ab = getSupportActionBar();
+    if (ab != null) {
+      ab.setDisplayHomeAsUpEnabled(true);
+    }
+    //Title Setting.
+    mCollapsingToolbarLayout.setTitle(getString(R.string.title_activity_app_bar));
+  }
 
-		setSupportActionBar(toolBar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  @Override
+  protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    //RecyclerView item list create.
+    List<String> list = new ArrayList<>();
+    for (int i = 0; i < 20; i++) {
+      list.add("Item=" + i);
+    }
+    //RecyclerView Config.
+    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    mRecyclerView.setAdapter(new ItemAdapter(list));
+  }
 
-		collapsingToolbarLayout.setTitle(getString(R.string.title_activity_app_bar));
-	}
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
+  private static class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-		List<String> list = new ArrayList<>();
-		for (int i = 0; i < 20; i++) {
-			list.add("Item=" + i);
-		}
+    private final List<String> mItemList;
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setAdapter(new MyAdapter(list));
-	}
+    public ItemAdapter(List<String> list) {
+      mItemList = list;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    public String getItem(int position) {
+      return mItemList.get(position);
+    }
 
-	private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    @Override
+    public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+      LayoutInflater li = LayoutInflater.from(viewGroup.getContext());
+      View view = li.inflate(R.layout.layout_recycler_item, viewGroup, false);
+      return new ItemViewHolder(view);
+    }
 
-		private final List<String> list;
+    @Override
+    public void onBindViewHolder(ItemViewHolder viewHolder, int position) {
+      String text = getItem(position);
+      viewHolder.setTitleText(text);
+    }
 
-		public MyAdapter(List<String> list) {
-			this.list = list;
-		}
+    @Override
+    public int getItemCount() {
+      return mItemList.size();
+    }
+  }
 
-		@Override
-		public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-			View view
-				= LayoutInflater.from(viewGroup.getContext())
-								.inflate(R.layout.layout_recycler_item, viewGroup, false);
-			return new MyViewHolder(view);
-		}
+  private static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-		@Override
-		public void onBindViewHolder(MyViewHolder viewHolder, int position) {
-			String text = list.get(position);
-			viewHolder.title.setText(text);
-		}
+    public TextView mTitle;
 
-		@Override
-		public int getItemCount() {
-			return list.size();
-		}
-	}
+    public ItemViewHolder(View itemView) {
+      super(itemView);
+      mTitle = (TextView) itemView.findViewById(R.id.textView);
+    }
 
-	private class MyViewHolder extends RecyclerView.ViewHolder {
-		public TextView title;
-
-		public MyViewHolder(View itemView) {
-			super(itemView);
-			title = (TextView) itemView.findViewById(R.id.textView);
-
-		}
-	}
+    private void setTitleText(String text) {
+      mTitle.setText(text);
+    }
+  }
 }

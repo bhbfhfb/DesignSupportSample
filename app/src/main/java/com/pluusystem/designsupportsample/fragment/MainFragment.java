@@ -11,19 +11,18 @@ import com.pluusystem.designsupportsample.R;
 /**
  * Created by PLUUSYSTEM-NEW on 2015-05-31.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class MainFragment extends Fragment {
-	public static MainFragment newInstance() {
-		MainFragment fragment = new MainFragment();
-		return fragment;
-	}
 
-	public MainFragment() {
-	}
+  public static MainFragment newInstance() {
+    return new MainFragment();
+  }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-		return rootView;
-	}
+  public MainFragment() {
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater i, ViewGroup c, Bundle s) {
+    return i.inflate(R.layout.fragment_main, c, false);
+  }
 }
